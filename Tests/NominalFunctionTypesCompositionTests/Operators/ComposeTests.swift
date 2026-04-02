@@ -6,20 +6,50 @@ import NominalFunctionTypes
 @Suite
 struct ComposeTests {
 	@Suite
-	struct SendableAsyncThrowing {
-		let a = SendableAsyncThrowingFunc(isNotZero)
+	struct MainActorAsyncThrowing {
+		let a = MainActorAsyncThrowingFunc(isNotZero)
+
+		@Test
+		func intoMainActorAsyncThrowing() async throws {
+			let b = MainActorAsyncThrowingFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
 
 		@Test
 		func intoSendableAsyncThrowing() async throws {
 			let b = SendableAsyncThrowingFunc(desc)
 			let f = b <<< a
-			try await sendableCheck(f.run)
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
 		}
 
 		@Test
 		func intoAsyncThrowing() async throws {
 			let b = AsyncThrowingFunc(desc)
 			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+
+		@Test
+		func intoMainActorAsync() async throws {
+			let b = MainActorAsyncFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
 			try await check(f.run)
 		}
 
@@ -27,13 +57,32 @@ struct ComposeTests {
 		func intoSendableAsync() async throws {
 			let b = SendableAsyncFunc(desc)
 			let f = b <<< a
-			try await sendableCheck(f.run)
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
 		}
 
 		@Test
 		func intoAsync() async throws {
 			let b = AsyncFunc(desc)
 			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+
+		@Test
+		func intoMainActorSyncThrowing() async throws {
+			let b = MainActorSyncThrowingFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
 			try await check(f.run)
 		}
 
@@ -41,13 +90,32 @@ struct ComposeTests {
 		func intoSendableSyncThrowing() async throws {
 			let b = SendableSyncThrowingFunc(desc)
 			let f = b <<< a
-			try await sendableCheck(f.run)
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
 		}
 
 		@Test
 		func intoSyncThrowing() async throws {
 			let b = SyncThrowingFunc(desc)
 			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+
+		@Test
+		func intoMainActorSync() async throws {
+			let b = MainActorSyncFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
 			try await check(f.run)
 		}
 
@@ -55,13 +123,158 @@ struct ComposeTests {
 		func intoSendableSync() async throws {
 			let b = SendableSyncFunc(desc)
 			let f = b <<< a
-			try await sendableCheck(f.run)
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
 		}
 
 		@Test
 		func intoSync() async throws {
 			let b = SyncFunc(desc)
 			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+	}
+
+	@Suite
+	struct SendableAsyncThrowing {
+		let a = SendableAsyncThrowingFunc(isNotZero)
+
+		@Test
+		func intoMainActorAsyncThrowing() async throws {
+			let b = MainActorAsyncThrowingFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+
+		@Test
+		func intoSendableAsyncThrowing() async throws {
+			let b = SendableAsyncThrowingFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: SendableAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+
+		@Test
+		func intoAsyncThrowing() async throws {
+			let b = AsyncThrowingFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: AsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+
+		@Test
+		func intoMainActorAsync() async throws {
+			let b = MainActorAsyncFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+
+		@Test
+		func intoSendableAsync() async throws {
+			let b = SendableAsyncFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: SendableAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+
+		@Test
+		func intoAsync() async throws {
+			let b = AsyncFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: AsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+
+		@Test
+		func intoMainActorSyncThrowing() async throws {
+			let b = MainActorSyncThrowingFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+
+		@Test
+		func intoSendableSyncThrowing() async throws {
+			let b = SendableSyncThrowingFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: SendableAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+
+		@Test
+		func intoSyncThrowing() async throws {
+			let b = SyncThrowingFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: AsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+
+		@Test
+		func intoMainActorSync() async throws {
+			let b = MainActorSyncFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: MainActorAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+
+		@Test
+		func intoSendableSync() async throws {
+			let b = SendableSyncFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: SendableAsyncThrowingFunc<Int, String, Never>.self
+			)
+			try await check(f.run)
+		}
+
+		@Test
+		func intoSync() async throws {
+			let b = SyncFunc(desc)
+			let f = b <<< a
+			try await checkType(
+				of: f,
+				is: AsyncThrowingFunc<Int, String, Never>.self
+			)
 			try await check(f.run)
 		}
 	}
