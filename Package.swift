@@ -26,6 +26,10 @@ let package = Package(
 			targets: ["_Currying"]
 		),
 		.library(
+			name: "_Tuples",
+			targets: ["_Tuples"]
+		),
+		.library(
 			name: "NominalFunctionTypes",
 			targets: ["NominalFunctionTypes"]
 		),
@@ -75,6 +79,10 @@ let package = Package(
 			path: "Sources/FreeFunctions/Curry"
 		),
 		.target(
+			name: "_Tuples",
+			path: "Sources/FreeFunctions/Tuples"
+		),
+		.target(
 			name: "FunctionCompositionOperators",
 			dependencies: []
 		),
@@ -107,6 +115,10 @@ let package = Package(
 				.target(
 					name: "_Currying",
 					condition: .when(traits: ["Currying"])
+				),
+				.target(
+					name: "_Tuples",
+					condition: .when(traits: ["Tuples"])
 				),
 			],
 			path: "Sources/NominalFunctionTypesComposition/Sources"
@@ -186,6 +198,10 @@ package.traits.formUnion([
 	.trait(
 		name: "Currying",
 		description: "Enables exports of curry, uncurry and flip functions"
+	),
+	.trait(
+		name: "Tuples",
+		description: "Enables exports of pack, unpack and scope functions"
 	),
 	.trait(
 		name: "Operators",

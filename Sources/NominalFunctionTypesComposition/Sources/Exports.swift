@@ -15,3 +15,7 @@
 #if Currying && canImport(_Currying)
 @_exported import _Currying
 #endif
+
+#if Tuples && canImport(_Tuples)
+@_exported import _Tuples
+#endif
