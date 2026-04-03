@@ -115,6 +115,13 @@ let package = Package(
 			],
 			path: "Tests/NominalFunctionTypesCompositionTests/Operators"
 		),
+		.testTarget(
+			name: "NominalFunctionTypesCompositionMethodsTests",
+			dependencies: [
+				.target(name: "NominalFunctionTypesCompositionMethods"),
+			],
+			path: "Tests/NominalFunctionTypesCompositionTests/Methods"
+		),
 	],
 	swiftLanguageModes: [.v6]
 )
@@ -165,4 +172,3 @@ package.traits.formUnion([
 package.traits.insert(.default(
 	enabledTraits: Set(enableAllTraits ? package.traits.map(\.name) : [])
 ))
-
