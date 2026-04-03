@@ -18,6 +18,18 @@ let package = Package(
 			targets: ["FunctionComposition"]
 		),
 		.library(
+			name: "Either",
+			targets: ["Either"]
+		),
+		.library(
+			name: "Currying",
+			targets: ["Currying"]
+		),
+		.library(
+			name: "NominalFunctionTypes",
+			targets: ["NominalFunctionTypes"]
+		),
+		.library(
 			name: "NominalFunctionTypesComposition",
 			targets: ["NominalFunctionTypesComposition"]
 		),
@@ -55,6 +67,10 @@ let package = Package(
 			path: "Sources/Monads/Either"
 		),
 		.target(
+			name: "Currying",
+			path: "Sources/FreeFunctions/Curry"
+		),
+		.target(
 			name: "FunctionCompositionOperators",
 			dependencies: []
 		),
@@ -82,6 +98,10 @@ let package = Package(
 				.target(
 					name: "NominalFunctionTypesCompositionOperators",
 					condition: .when(traits: ["Operators"])
+				),
+				.target(
+					name: "Currying",
+					condition: .when(traits: ["Currying"])
 				),
 			],
 			path: "Sources/NominalFunctionTypesComposition/Sources"
@@ -161,6 +181,10 @@ package.traits.formUnion([
 	.trait(
 		name: "Functions",
 		description: "Enables global functions for composition"
+	),
+	.trait(
+		name: "Currying",
+		description: "Enables exports of curry, uncurry and flip functions"
 	),
 	.trait(
 		name: "Operators",
