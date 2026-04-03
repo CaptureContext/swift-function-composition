@@ -79,6 +79,57 @@ public func compose<
 
 @inlinable
 public func compose<
+	F1: AsyncThrowingFunction & Sendable,
+	F0: _MainActorAsyncThrowingFunction & Sendable,
+>(
+	_ f1: F1,
+	_ f0: F0
+) -> MainActorAsyncThrowingFunc<F0.Input, F1.Output, F1.Failure> where
+	F1.Input == F0.Output,
+	F1.Failure == F0.Failure,
+	F1.Input: Sendable
+{
+	MainActorAsyncThrowingFunc { (input: F0.Input) async throws(F0.Failure) -> F1.Output in
+		do {
+			let partialResult = try await f0.run(with: input)
+			do {
+				return try await f1.run(with: partialResult)
+			} catch {
+				throw error as! F1.Failure
+			}
+		} catch {
+			throw error as! F0.Failure
+		}
+	}
+}
+
+@inlinable
+public func compose<
+	F1: _MainActorAsyncThrowingFunction & Sendable,
+	F0: AsyncThrowingFunction & Sendable,
+>(
+	_ f1: F1,
+	_ f0: F0
+) -> MainActorAsyncThrowingFunc<F0.Input, F1.Output, Either<F0.Failure, F1.Failure>> where
+	F1.Input == F0.Output,
+	F0.Input: Sendable
+{
+	MainActorAsyncThrowingFunc { (input: F0.Input) async throws(Either<F0.Failure, F1.Failure>) -> F1.Output in
+		do {
+			let partialResult = try await f0.run(with: input)
+			do {
+				return try await f1.run(with: partialResult)
+			} catch {
+				throw Either<F0.Failure, F1.Failure>.right(error as! F1.Failure)
+			}
+		} catch {
+			throw Either<F0.Failure, F1.Failure>.left(error as! F0.Failure)
+		}
+	}
+}
+
+@inlinable
+public func compose<
 	F1: _MainActorAsyncThrowingFunction & Sendable,
 	F0: AsyncThrowingFunction & Sendable
 >(
@@ -248,6 +299,57 @@ public func compose<
 ) -> MainActorSyncThrowingFunc<F0.Input, F1.Output, Either<F0.Failure, F1.Failure>> where
 	F1.Input == F0.Output,
 	F1.Input: Sendable
+{
+	MainActorSyncThrowingFunc { (input: F0.Input) throws(Either<F0.Failure, F1.Failure>) -> F1.Output in
+		do {
+			let partialResult = try f0.run(with: input)
+			do {
+				return try f1.run(with: partialResult)
+			} catch {
+				throw Either<F0.Failure, F1.Failure>.right(error as! F1.Failure)
+			}
+		} catch {
+			throw Either<F0.Failure, F1.Failure>.left(error as! F0.Failure)
+		}
+	}
+}
+
+@inlinable
+public func compose<
+	F1: SyncThrowingFunction & Sendable,
+	F0: _MainActorSyncThrowingFunction & Sendable,
+>(
+	_ f1: F1,
+	_ f0: F0
+) -> MainActorSyncThrowingFunc<F0.Input, F1.Output, F1.Failure> where
+	F1.Input == F0.Output,
+	F1.Failure == F0.Failure,
+	F1.Input: Sendable
+{
+	MainActorSyncThrowingFunc { (input: F0.Input) throws(F0.Failure) -> F1.Output in
+		do {
+			let partialResult = try f0.run(with: input)
+			do {
+				return try f1.run(with: partialResult)
+			} catch {
+				throw error as! F1.Failure
+			}
+		} catch {
+			throw error as! F0.Failure
+		}
+	}
+}
+
+@inlinable
+public func compose<
+	F1: _MainActorSyncThrowingFunction & Sendable,
+	F0: SyncThrowingFunction & Sendable,
+>(
+	_ f1: F1,
+	_ f0: F0
+) -> MainActorSyncThrowingFunc<F0.Input, F1.Output, Either<F0.Failure, F1.Failure>> where
+	F1.Input == F0.Output,
+	F0.Input: Sendable
 {
 	MainActorSyncThrowingFunc { (input: F0.Input) throws(Either<F0.Failure, F1.Failure>) -> F1.Output in
 		do {
