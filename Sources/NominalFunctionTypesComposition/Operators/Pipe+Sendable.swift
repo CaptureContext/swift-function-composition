@@ -1,6 +1,7 @@
 import NominalFunctionTypes
 import FunctionCompositionOperators
 
+@_disfavoredOverload
 @inlinable
 public func >>> <
 	A: AsyncThrowingFunction & Sendable,
@@ -12,9 +13,9 @@ public func >>> <
 where A.Input == B.Output {
 	SendableAsyncThrowingFunc { (input: B.Input) async throws(Either<B.Failure, A.Failure>) -> A.Output in
 		do {
-			let partialResult = try await b.run(input)
+			let partialResult = try await b.run(with: input)
 			do {
-				return try await a.run(partialResult)
+				return try await a.run(with: partialResult)
 			} catch {
 				throw Either<B.Failure, A.Failure>.right(error as! A.Failure)
 			}
@@ -24,6 +25,7 @@ where A.Input == B.Output {
 	}
 }
 
+@_disfavoredOverload
 @inlinable
 public func >>> <
 	A: AsyncThrowingFunction & Sendable,
@@ -35,9 +37,9 @@ public func >>> <
 where A.Input == B.Output, A.Failure == B.Failure {
 	SendableAsyncThrowingFunc { (input: B.Input) async throws(A.Failure) -> A.Output in
 		do {
-			let partialResult = try await b.run(input)
+			let partialResult = try await b.run(with: input)
 			do {
-				return try await a.run(partialResult)
+				return try await a.run(with: partialResult)
 			} catch {
 				throw error as! A.Failure
 			}
@@ -47,6 +49,7 @@ where A.Input == B.Output, A.Failure == B.Failure {
 	}
 }
 
+@_disfavoredOverload
 @inlinable
 public func >>> <
 	A: AsyncFunction & Sendable,
@@ -57,10 +60,11 @@ public func >>> <
 ) -> SendableAsyncFunc<B.Input, A.Output>
 where A.Input == B.Output {
 	SendableAsyncFunc { (input: B.Input) async -> A.Output in
-		await a.run(b.run(input))
+		await a.run(with: b.run(with: input))
 	}
 }
 
+@_disfavoredOverload
 @inlinable
 public func >>> <
 	A: SyncThrowingFunction & Sendable,
@@ -72,9 +76,9 @@ public func >>> <
 where A.Input == B.Output {
 	SendableSyncThrowingFunc { (input: B.Input) throws(Either<B.Failure, A.Failure>) -> A.Output in
 		do {
-			let partialResult = try b.run(input)
+			let partialResult = try b.run(with: input)
 			do {
-				return try a.run(partialResult)
+				return try a.run(with: partialResult)
 			} catch {
 				throw Either<B.Failure, A.Failure>.right(error as! A.Failure)
 			}
@@ -84,6 +88,7 @@ where A.Input == B.Output {
 	}
 }
 
+@_disfavoredOverload
 @inlinable
 public func >>> <
 	A: SyncThrowingFunction & Sendable,
@@ -95,9 +100,9 @@ public func >>> <
 where A.Input == B.Output, A.Failure == B.Failure {
 	SendableSyncThrowingFunc { (input: B.Input) throws(A.Failure) -> A.Output in
 		do {
-			let partialResult = try b.run(input)
+			let partialResult = try b.run(with: input)
 			do {
-				return try a.run(partialResult)
+				return try a.run(with: partialResult)
 			} catch {
 				throw error as! A.Failure
 			}
@@ -107,6 +112,7 @@ where A.Input == B.Output, A.Failure == B.Failure {
 	}
 }
 
+@_disfavoredOverload
 @inlinable
 public func >>> <
 	A: SyncFunction & Sendable,
@@ -117,6 +123,6 @@ public func >>> <
 ) -> SendableSyncFunc<B.Input, A.Output>
 where A.Input == B.Output {
 	SendableSyncFunc { (input: B.Input) -> A.Output in
-		a.run(b.run(input))
+		a.run(with: b.run(with: input))
 	}
 }
