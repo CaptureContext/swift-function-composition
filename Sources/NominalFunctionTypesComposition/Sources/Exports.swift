@@ -11,3 +11,7 @@
 #if Operators && canImport(NominalFunctionTypesCompositionOperators)
 @_exported import NominalFunctionTypesCompositionOperators
 #endif
+
+#if Currying && canImport(_Currying)
+@_exported import _Currying
+#endif

@@ -22,8 +22,8 @@ let package = Package(
 			targets: ["Either"]
 		),
 		.library(
-			name: "Currying",
-			targets: ["Currying"]
+			name: "_Currying",
+			targets: ["_Currying"]
 		),
 		.library(
 			name: "NominalFunctionTypes",
@@ -67,7 +67,7 @@ let package = Package(
 			path: "Sources/Monads/Either"
 		),
 		.target(
-			name: "Currying",
+			name: "_Currying",
 			path: "Sources/FreeFunctions/Curry"
 		),
 		.target(
@@ -100,7 +100,7 @@ let package = Package(
 					condition: .when(traits: ["Operators"])
 				),
 				.target(
-					name: "Currying",
+					name: "_Currying",
 					condition: .when(traits: ["Currying"])
 				),
 			],
