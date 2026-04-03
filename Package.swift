@@ -122,6 +122,13 @@ let package = Package(
 			],
 			path: "Tests/NominalFunctionTypesCompositionTests/Methods"
 		),
+		.testTarget(
+			name: "NominalFunctionTypesCompositionFunctionsTests",
+			dependencies: [
+				.target(name: "NominalFunctionTypesCompositionFunctions"),
+			],
+			path: "Tests/NominalFunctionTypesCompositionTests/Functions"
+		),
 	],
 	swiftLanguageModes: [.v6]
 )
