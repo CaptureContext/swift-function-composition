@@ -15,7 +15,7 @@ extension SyncFunction {
 	}
 
 	@inlinable
-	public func run(_ input: Input) async -> Output {
+	public func run(with input: Input) async -> Output {
 		return syncRun(with: input)
 	}
 
