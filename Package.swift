@@ -60,6 +60,10 @@ let package = Package(
 					name: "NominalFunctionTypesComposition",
 					condition: .when(traits: ["NominalTypes"])
 				),
+				.target(
+					name: "_Currying",
+					condition: .when(traits: ["Currying"])
+				),
 			]
 		),
 		.target(
