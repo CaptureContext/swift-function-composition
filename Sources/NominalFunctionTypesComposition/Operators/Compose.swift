@@ -9,8 +9,9 @@ public func <<< <
 >(
 	_ a: A,
 	_ b: B
-) -> AsyncThrowingFunc<B.Input, A.Output, Either<B.Failure, A.Failure>>
-where A.Input == B.Output {
+) -> AsyncThrowingFunc<B.Input, A.Output, Either<B.Failure, A.Failure>> where
+	A.Input == B.Output
+{
 	AsyncThrowingFunc { (input: B.Input) async throws(Either<B.Failure, A.Failure>) -> A.Output in
 		do {
 			let partialResult = try await b.run(with: input)
@@ -33,8 +34,10 @@ public func <<< <
 >(
 	_ a: A,
 	_ b: B
-) -> AsyncThrowingFunc<B.Input, A.Output, A.Failure>
-where A.Input == B.Output, A.Failure == B.Failure {
+) -> AsyncThrowingFunc<B.Input, A.Output, A.Failure> where
+	A.Input == B.Output,
+	A.Failure == B.Failure
+{
 	AsyncThrowingFunc { (input: B.Input) async throws(A.Failure) -> A.Output in
 		do {
 			let partialResult = try await b.run(with: input)
@@ -57,8 +60,9 @@ public func <<< <
 >(
 	_ a: A,
 	_ b: B
-) -> AsyncFunc<B.Input, A.Output>
-where A.Input == B.Output {
+) -> AsyncFunc<B.Input, A.Output> where
+	A.Input == B.Output
+{
 	AsyncFunc { (input: B.Input) async -> A.Output in
 		await a.run(with: b.run(with: input))
 	}
@@ -72,8 +76,9 @@ public func <<< <
 >(
 	_ a: A,
 	_ b: B
-) -> SyncThrowingFunc<B.Input, A.Output, Either<B.Failure, A.Failure>>
-where A.Input == B.Output {
+) -> SyncThrowingFunc<B.Input, A.Output, Either<B.Failure, A.Failure>> where
+	A.Input == B.Output
+{
 	SyncThrowingFunc { (input: B.Input) throws(Either<B.Failure, A.Failure>) -> A.Output in
 		do {
 			let partialResult = try b.run(with: input)
@@ -96,8 +101,10 @@ public func <<< <
 >(
 	_ a: A,
 	_ b: B
-) -> SyncThrowingFunc<B.Input, A.Output, A.Failure>
-where A.Input == B.Output, A.Failure == B.Failure {
+) -> SyncThrowingFunc<B.Input, A.Output, A.Failure> where
+	A.Input == B.Output,
+	A.Failure == B.Failure
+{
 	SyncThrowingFunc { (input: B.Input) throws(A.Failure) -> A.Output in
 		do {
 			let partialResult = try b.run(with: input)
@@ -120,8 +127,9 @@ public func <<< <
 >(
 	_ a: A,
 	_ b: B
-) -> SyncFunc<B.Input, A.Output>
-where A.Input == B.Output {
+) -> SyncFunc<B.Input, A.Output> where
+	A.Input == B.Output
+{
 	SyncFunc { (input: B.Input) -> A.Output in
 		a.run(with: b.run(with: input))
 	}
