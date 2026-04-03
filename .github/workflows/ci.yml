@@ -20,6 +20,8 @@ jobs:
       !contains(github.event.head_commit.message, '[ci skip]') &&
       !contains(github.event.head_commit.message, '[ci skip test]')
     runs-on: macos-latest
+    env:
+      ENABLE_ALL_TRAITS: 1
     strategy:
       matrix:
         platform: [iOS, macOS, macCatalyst, tvOS, watchOS]
