@@ -171,10 +171,6 @@ let enableAllTraits = spiGenerateDocs || enableAllTraitsExplicit
 
 package.traits.formUnion([
 	.trait(
-		name: "Closures",
-		description: "Enables composition for closures"
-	),
-	.trait(
 		name: "NominalTypes",
 		description: "Enables nominal function types"
 	),
@@ -193,10 +189,6 @@ package.traits.formUnion([
 	.trait(
 		name: "Methods",
 		description: "Enables methods for composition of nominal function types"
-	),
-	.trait(
-		name: "Tuples",
-		description: "Helper functions for tuples"
 	),
 ])
 
