@@ -1,0 +1,20 @@
+version: 1
+builder:
+  configs:
+  - platform: ios
+  - platform: macos-spm
+  - platform: macos-xcodebuild
+  - platform: tvos
+  - platform: watchos
+  - platform: android
+
+  - platform: linux
+    swift_version: '6.1'
+
+  - documentation_targets:
+    - FunctionCompositionOperators
+    - NominalFunctionTypes
+    - NominalFunctionTypesCompositionOperators
+    - NominalFunctionTypesCompositionMethods
+    - NominalFunctionTypesCompositionFunctions
+    - _Currying
