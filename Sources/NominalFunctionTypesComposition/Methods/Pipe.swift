@@ -5,8 +5,9 @@ extension AsyncThrowingFunction {
 	@inlinable
 	public func pipe<A: AsyncThrowingFunction>(
 		_ a: A
-	) -> AsyncThrowingFunc<Input, A.Output, Either<Failure, A.Failure>>
-	where A.Input == Output {
+	) -> AsyncThrowingFunc<Input, A.Output, Either<Failure, A.Failure>> where
+		A.Input == Output
+	{
 		AsyncThrowingFunc { (input: Input) async throws(Either<Failure, A.Failure>) -> A.Output in
 			do {
 				let partialResult = try await self.run(with: input)
@@ -25,8 +26,10 @@ extension AsyncThrowingFunction {
 	@inlinable
 	public func pipe<A: AsyncThrowingFunction>(
 		_ a: A
-	) -> AsyncThrowingFunc<Input, A.Output, A.Failure>
-	where A.Input == Output, Failure == A.Failure {
+	) -> AsyncThrowingFunc<Input, A.Output, A.Failure> where
+		A.Input == Output,
+		Failure == A.Failure
+	{
 		AsyncThrowingFunc { (input: Input) async throws(A.Failure) -> A.Output in
 			do {
 				let partialResult = try await self.run(with: input)
@@ -47,8 +50,9 @@ extension AsyncFunction {
 	@inlinable
 	public func pipe<A: AsyncFunction>(
 		_ a: A
-	) -> AsyncFunc<Input, A.Output>
-	where A.Input == Output {
+	) -> AsyncFunc<Input, A.Output> where
+		A.Input == Output
+	{
 		AsyncFunc { (input: Input) async -> A.Output in
 			await a.run(with: self.run(with: input))
 		}
@@ -60,8 +64,9 @@ extension SyncThrowingFunction {
 	@inlinable
 	public func pipe<A: SyncThrowingFunction>(
 		_ a: A
-	) -> SyncThrowingFunc<Input, A.Output, Either<Failure, A.Failure>>
-	where A.Input == Output {
+	) -> SyncThrowingFunc<Input, A.Output, Either<Failure, A.Failure>> where
+		A.Input == Output
+	{
 		SyncThrowingFunc { (input: Input) throws(Either<Failure, A.Failure>) -> A.Output in
 			do {
 				let partialResult = try self.run(with: input)
@@ -80,8 +85,10 @@ extension SyncThrowingFunction {
 	@inlinable
 	public func pipe<A: SyncThrowingFunction>(
 		_ a: A
-	) -> SyncThrowingFunc<Input, A.Output, A.Failure>
-	where A.Input == Output, Failure == A.Failure {
+	) -> SyncThrowingFunc<Input, A.Output, A.Failure> where
+		A.Input == Output,
+		Failure == A.Failure
+	{
 		SyncThrowingFunc { (input: Input) throws(A.Failure) -> A.Output in
 			do {
 				let partialResult = try self.run(with: input)
@@ -102,8 +109,9 @@ extension SyncFunction {
 	@inlinable
 	public func pipe<A: SyncFunction>(
 		_ a: A
-	) -> SyncFunc<Input, A.Output>
-	where A.Input == Output {
+	) -> SyncFunc<Input, A.Output> where
+		A.Input == Output
+	{
 		SyncFunc { (input: Input) -> A.Output in
 			a.run(with: self.run(with: input))
 		}
