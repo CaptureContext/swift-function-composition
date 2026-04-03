@@ -91,6 +91,7 @@ let package = Package(
 		.target(
 			name: "NominalFunctionTypesComposition",
 			dependencies: [
+				.target(name: "NominalFunctionTypes"),
 				.target(
 					name: "NominalFunctionTypesCompositionFunctions",
 					condition: .when(traits: ["Functions"])
