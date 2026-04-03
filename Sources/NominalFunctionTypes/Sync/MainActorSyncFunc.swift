@@ -17,6 +17,11 @@ public struct MainActorSyncFunc<
 		self.call = call
 	}
 
+	@inlinable
+	public init(_ f: any _MainActorSyncFunction<Input, Output> & Sendable) {
+		self.init(f.run)
+	}
+
 	@MainActor
 	@inlinable
 	public func run(with input: Input) -> Output {

@@ -25,3 +25,10 @@ public struct SendableSyncThrowingFunc<
 		return try call(input)
 	}
 }
+
+extension SendableSyncThrowingFunc where Input: Sendable, Output: Sendable {
+	@inlinable
+	public func mainActor() -> MainActorSyncThrowingFunc<Input, Output, Failure> {
+		MainActorSyncThrowingFunc(call)
+	}
+}

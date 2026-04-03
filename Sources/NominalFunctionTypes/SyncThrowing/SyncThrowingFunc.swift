@@ -48,7 +48,7 @@ public struct SyncThrowingFunc<
 		return try call(input)
 	}
 
-	public func uncheckedSendable() -> some SyncThrowingFunction<Input, Output, Failure> & Sendable {
+	public func uncheckedSendable() -> SendableSyncThrowingFunc<Input, Output, Failure> {
 		let sendable = UncheckedSendable(self)
 		return SendableSyncThrowingFunc { (input: Input) throws(Failure) -> Output in
 			try sendable.value.run(with: input)

@@ -18,6 +18,11 @@ public struct MainActorAsyncFunc<
 		self.call = call
 	}
 
+	@inlinable
+	public init(_ f: any _MainActorAsyncFunction<Input, Output> & Sendable) {
+		self.init(f.run)
+	}
+
 	@MainActor
 	@inlinable
 	public func run(with input: Input) async -> Output {

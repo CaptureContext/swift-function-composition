@@ -24,3 +24,10 @@ public struct SendableAsyncFunc<
 		return await call(input)
 	}
 }
+
+extension SendableAsyncFunc where Input: Sendable, Output: Sendable {
+	@inlinable
+	public func mainActor() -> MainActorAsyncFunc<Input, Output> {
+		MainActorAsyncFunc(call)
+	}
+}

@@ -25,3 +25,10 @@ public struct SendableAsyncThrowingFunc<
 		return try await call(input)
 	}
 }
+
+extension SendableAsyncThrowingFunc where Input: Sendable, Output: Sendable {
+	@inlinable
+	public func mainActor() -> MainActorAsyncThrowingFunc<Input, Output, Failure> {
+		MainActorAsyncThrowingFunc(call)
+	}
+}

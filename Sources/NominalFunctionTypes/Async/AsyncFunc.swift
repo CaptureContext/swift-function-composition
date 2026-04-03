@@ -37,7 +37,7 @@ public struct AsyncFunc<Input, Output>: AsyncFunction {
 		return await call(input)
 	}
 
-	public func uncheckedSendable() -> some AsyncFunction<Input, Output> & Sendable {
+	public func uncheckedSendable() -> SendableAsyncFunc<Input, Output> {
 		let sendable = UncheckedSendable(self)
 		return SendableAsyncFunc { (input: Input) async -> Output in
 			await sendable.value.run(with: input)

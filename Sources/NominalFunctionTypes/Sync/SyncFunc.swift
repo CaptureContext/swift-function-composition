@@ -51,7 +51,7 @@ public struct SyncFunc<
 		return call(input)
 	}
 
-	public func uncheckedSendable() -> some SyncFunction<Input, Output> & Sendable {
+	public func uncheckedSendable() -> SendableSyncFunc<Input, Output> {
 		let sendable = UncheckedSendable(self)
 		return SendableSyncFunc { (input: Input) -> Output in
 			sendable.value.run(with: input)

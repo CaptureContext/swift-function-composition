@@ -46,7 +46,7 @@ public struct AsyncThrowingFunc<
 		return try await call(input)
 	}
 
-	public func uncheckedSendable() -> some AsyncThrowingFunction<Input, Output, Failure> & Sendable {
+	public func uncheckedSendable() -> SendableAsyncThrowingFunc<Input, Output, Failure> {
 		let sendable = UncheckedSendable(self)
 		return SendableAsyncThrowingFunc { (input: Input) async throws(Failure) -> Output in
 			try await sendable.value.run(with: input)

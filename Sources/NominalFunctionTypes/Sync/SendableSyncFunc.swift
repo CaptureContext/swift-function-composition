@@ -24,3 +24,10 @@ public struct SendableSyncFunc<
 		return call(input)
 	}
 }
+
+extension SendableSyncFunc where Input: Sendable, Output: Sendable {
+	@inlinable
+	public func mainActor() -> MainActorSyncFunc<Input, Output> {
+		MainActorSyncFunc(call)
+	}
+}

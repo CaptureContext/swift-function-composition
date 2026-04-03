@@ -19,6 +19,11 @@ public struct MainActorSyncThrowingFunc<
 		self.call = call
 	}
 
+	@inlinable
+	public init(_ f: any _MainActorSyncThrowingFunction<Input, Output, Failure> & Sendable) {
+		self.init(f.run)
+	}
+
 	@MainActor
 	@inlinable
 	public func run(with input: Input) throws(Failure) -> Output {
