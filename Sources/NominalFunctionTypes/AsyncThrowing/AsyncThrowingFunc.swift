@@ -53,3 +53,10 @@ public struct AsyncThrowingFunc<
 		}
 	}
 }
+
+extension AsyncThrowingFunc where Input == Void {
+	@inlinable
+	public func callAsFunction() async throws(Failure) -> Output {
+		return try await call(())
+	}
+}

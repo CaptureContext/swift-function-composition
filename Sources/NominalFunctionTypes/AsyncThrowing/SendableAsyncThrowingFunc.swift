@@ -26,6 +26,13 @@ public struct SendableAsyncThrowingFunc<
 	}
 }
 
+extension SendableAsyncThrowingFunc where Input == Void {
+	@inlinable
+	public func callAsFunction() async throws(Failure) -> Output {
+		return try await call(())
+	}
+}
+
 extension SendableAsyncThrowingFunc where Input: Sendable, Output: Sendable {
 	@inlinable
 	public func mainActor() -> MainActorAsyncThrowingFunc<Input, Output, Failure> {

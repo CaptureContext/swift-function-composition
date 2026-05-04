@@ -34,3 +34,11 @@ public struct MainActorSyncFunc<
 		return call(input)
 	}
 }
+
+extension MainActorSyncFunc where Input == Void {
+	@MainActor
+	@inlinable
+	public func callAsFunction() -> Output {
+		return call(())
+	}
+}

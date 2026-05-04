@@ -25,6 +25,13 @@ public struct SendableAsyncFunc<
 	}
 }
 
+extension SendableAsyncFunc where Input == Void {
+	@inlinable
+	public func callAsFunction() async -> Output {
+		return await call(())
+	}
+}
+
 extension SendableAsyncFunc where Input: Sendable, Output: Sendable {
 	@inlinable
 	public func mainActor() -> MainActorAsyncFunc<Input, Output> {

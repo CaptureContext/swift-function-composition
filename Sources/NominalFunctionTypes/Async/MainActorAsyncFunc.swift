@@ -35,3 +35,11 @@ public struct MainActorAsyncFunc<
 		return await call(input)
 	}
 }
+
+extension MainActorAsyncFunc where Input == Void {
+	@MainActor
+	@inlinable
+	public func callAsFunction() async -> Output {
+		return await call(())
+	}
+}

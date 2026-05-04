@@ -55,3 +55,10 @@ public struct SyncThrowingFunc<
 		}
 	}
 }
+
+extension SyncThrowingFunc where Input == Void {
+	@inlinable
+	public func callAsFunction() throws(Failure) -> Output {
+		return try call(())
+	}
+}

@@ -25,6 +25,13 @@ public struct SendableSyncFunc<
 	}
 }
 
+extension SendableSyncFunc where Input == Void {
+	@inlinable
+	public func callAsFunction() -> Output {
+		return call(())
+	}
+}
+
 extension SendableSyncFunc where Input: Sendable, Output: Sendable {
 	@inlinable
 	public func mainActor() -> MainActorSyncFunc<Input, Output> {

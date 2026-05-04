@@ -36,3 +36,11 @@ public struct MainActorSyncThrowingFunc<
 		return try call(input)
 	}
 }
+
+extension MainActorSyncThrowingFunc where Input == Void {
+	@MainActor
+	@inlinable
+	public func callAsFunction() throws(Failure) -> Output {
+		return try call(())
+	}
+}

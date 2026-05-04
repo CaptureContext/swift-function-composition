@@ -44,3 +44,10 @@ public struct AsyncFunc<Input, Output>: AsyncFunction {
 		}
 	}
 }
+
+extension AsyncFunc where Input == Void {
+	@inlinable
+	public func callAsFunction() async -> Output {
+		return await call(())
+	}
+}

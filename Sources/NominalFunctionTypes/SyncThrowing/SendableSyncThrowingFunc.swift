@@ -26,6 +26,13 @@ public struct SendableSyncThrowingFunc<
 	}
 }
 
+extension SendableSyncThrowingFunc where Input == Void {
+	@inlinable
+	public func callAsFunction() throws(Failure) -> Output {
+		return try call(())
+	}
+}
+
 extension SendableSyncThrowingFunc where Input: Sendable, Output: Sendable {
 	@inlinable
 	public func mainActor() -> MainActorSyncThrowingFunc<Input, Output, Failure> {

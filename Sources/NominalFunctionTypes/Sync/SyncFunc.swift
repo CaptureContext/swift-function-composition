@@ -58,3 +58,10 @@ public struct SyncFunc<
 		}
 	}
 }
+
+extension SyncFunc where Input == Void {
+	@inlinable
+	public func callAsFunction() -> Output {
+		return call(())
+	}
+}

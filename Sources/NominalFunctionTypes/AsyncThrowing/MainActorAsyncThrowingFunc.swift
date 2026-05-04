@@ -38,3 +38,12 @@ public struct MainActorAsyncThrowingFunc<
 		return try await call(input)
 	}
 }
+
+
+extension MainActorAsyncThrowingFunc where Input == Void {
+	@MainActor
+	@inlinable
+	public func callAsFunction() async throws(Failure) -> Output {
+		return try await call(())
+	}
+}
